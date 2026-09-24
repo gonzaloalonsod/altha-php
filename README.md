@@ -1,6 +1,6 @@
 # Altha PHP SDK
 
-Cliente PHP tipado para la [Altha WhatsApp Platform API](https://altha.althosalud.com).
+Cliente PHP tipado para la [Altha WhatsApp Platform API](https://altha.althoapp.com).
 
 Sin dependencias de framework: solo **PHP 8.2+** y **ext-curl**.
 
@@ -20,7 +20,7 @@ composer require althosalud/altha
 use AlthoSalud\Altha\AlthaClient;
 
 $client = new AlthaClient(
-    baseUrl: 'https://altha.althosalud.com',
+    baseUrl: 'https://altha.althoapp.com',
     apiKey: 'al_...',
 );
 
@@ -56,7 +56,7 @@ $orgClient->me();
 ### Symfony
 
 ```dotenv
-ALTHA_API_BASE_URL=https://altha.althosalud.com
+ALTHA_API_BASE_URL=https://altha.althoapp.com
 # Preferí key por organización cifrada en DB; no uses una sola key global en prod.
 ```
 
@@ -88,4 +88,4 @@ symfony composer test
 symfony composer check
 ```
 
-Local API: `https://altha.althosalud.wip`.
+Local API: `https://altha.althoapp.wip`.
