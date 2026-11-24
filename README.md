@@ -1,6 +1,6 @@
 # Altha PHP SDK
 
-Cliente PHP tipado para la [Altha Platform API](https://altha.althoapp.com).
+Cliente PHP tipado para la [Altha WhatsApp Platform API](https://altha.althoapp.com).
 
 Sin dependencias de framework: solo **PHP 8.2+** y **ext-curl**.
 

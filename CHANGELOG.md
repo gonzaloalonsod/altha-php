@@ -15,9 +15,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `getPricingQuote()` for `GET /api/v1/pricing/quote`.
 - Meta Cloud templates on `sendSecretaryMessage()` via optional `templateName` and `templateLanguage`. Gupshup `templateId` is unchanged.
 
+## [0.1.1] - 2026-09-24
+
 ### Changed
 
-- Documented production base URL is `https://altha.althoapp.com`.
+- README: canonical production Platform API base URL `https://altha.althoapp.com`; local `https://altha.althoapp.wip`.
 
 ## [0.1.0] - 2026-08-01
 
@@ -34,4 +36,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Exception hierarchy (`ApiException`, `ConfigurationException`, …).
 - PHPUnit, PHPStan level 8, PHP CS Fixer, GitHub Actions CI (PHP 8.2–8.4).
 
+[0.1.1]: https://github.com/gonzaloalonsod/altha-php/releases/tag/v0.1.1
 [0.1.0]: https://github.com/gonzaloalonsod/altha-php/releases/tag/v0.1.0
