@@ -7,7 +7,13 @@ namespace AlthoSalud\Altha\Contract;
 use AlthoSalud\Altha\Dto\ApplicationCredentials;
 use AlthoSalud\Altha\Dto\BotSettings;
 use AlthoSalud\Altha\Dto\ChannelStatus;
+use AlthoSalud\Altha\Dto\HealthStatus;
+use AlthoSalud\Altha\Dto\IntakeAttendantResult;
+use AlthoSalud\Altha\Dto\IntakeMediaUrl;
+use AlthoSalud\Altha\Dto\IntakeSendResult;
+use AlthoSalud\Altha\Dto\IntakeThread;
 use AlthoSalud\Altha\Dto\OutboundMessageResult;
+use AlthoSalud\Altha\Dto\PricingQuote;
 use AlthoSalud\Altha\Dto\UsageReport;
 
 interface AlthaClientInterface
@@ -15,6 +21,8 @@ interface AlthaClientInterface
     public function isConfigured(): bool;
 
     public function withApiKey(string $apiKey): self;
+
+    public function health(): HealthStatus;
 
     public function me(): ApplicationCredentials;
 
@@ -46,7 +54,7 @@ interface AlthaClientInterface
     public function getSecretaryUsage(): UsageReport;
 
     /**
-     * Send a session text message. Provide either $text or $templateId (+ optional $templateParams).
+     * Send a session text or a template. Gupshup uses $templateId. Meta Cloud API uses $templateName and $templateLanguage.
      *
      * @param list<string> $templateParams
      */
@@ -55,5 +63,29 @@ interface AlthaClientInterface
         ?string $text = null,
         ?string $templateId = null,
         array $templateParams = [],
+        ?string $templateName = null,
+        ?string $templateLanguage = null,
     ): OutboundMessageResult;
+
+    public function getIntakeThread(string $phone): IntakeThread;
+
+    public function takeIntakeThread(string $phone): IntakeAttendantResult;
+
+    public function releaseIntakeThread(string $phone): IntakeAttendantResult;
+
+    public function sendIntakeMessage(string $phone, string $text): IntakeSendResult;
+
+    public function getIntakeMedia(int $id): IntakeMediaUrl;
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function getDirectoryChannel(): array;
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function getDirectoryStatus(): array;
+
+    public function getPricingQuote(string $sku): PricingQuote;
 }
