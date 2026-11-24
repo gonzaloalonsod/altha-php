@@ -24,6 +24,8 @@ $client = new AlthaClient(
     apiKey: 'al_...',
 );
 
+$client->health(); // no requiere API key
+
 $me = $client->me();
 // $me->slug, $me->products (secretary|directory)
 
@@ -32,21 +34,42 @@ $client->sendSecretaryMessage(
     text: 'Tu turno es mañana a las 10:00',
 );
 
+// Gupshup: template.id
 $client->sendSecretaryMessage(
     to: '5491112345678',
     templateId: 'reminder_v1',
     templateParams: ['Juan', '10:00'],
 );
 
+// Meta Cloud API: template.name + template.language
+$client->sendSecretaryMessage(
+    to: '5491112345678',
+    templateName: 'reminder_v1',
+    templateLanguage: 'es_AR',
+    templateParams: ['Juan', '10:00'],
+);
+
 $channel = $client->getSecretaryChannel();
 $bot = $client->getSecretaryBot();
 $usage = $client->getSecretaryUsage();
+
+$quote = $client->getPricingQuote('secretary.pro');
+// $quote->sku, $quote->amountCents
+
+$thread = $client->getIntakeThread('5491112345678');
+$client->takeIntakeThread('5491112345678');
+$client->sendIntakeMessage('5491112345678', 'Hola, te atiende la farmacia.');
+$media = $client->getIntakeMedia(15);
+// $media->url expira en $media->expiresInSeconds. El SDK no descarga el archivo.
+$client->releaseIntakeThread('5491112345678');
 ```
+
+Directory (`getDirectoryChannel()`, `getDirectoryStatus()`) responde 403 si el producto no está habilitado y 501 mientras la API siga en stub. Esos estados llegan como `ApiException`.
 
 ### Multi-tenant (una key por organización)
 
 ```php
-$shared = new AlthaClient(baseUrl: getenv('ALTHA_API_BASE_URL'));
+$shared = new AlthaClient(baseUrl: getenv('ALTHA_API_BASE_URL') ?: 'https://altha.althoapp.com');
 $orgClient = $shared->withApiKey($decryptedOrgKey);
 $orgClient->me();
 ```
@@ -68,17 +91,22 @@ services:
             $apiKey: null
 ```
 
-## API cubierta (v0.1)
+## API cubierta (v0.2)
 
 | Método SDK | HTTP |
 |------------|------|
+| `health()` | `GET /api/v1/health` (sin API key) |
 | `me()` | `GET /api/v1/me` |
 | `getSecretaryChannel()` / `updateSecretaryChannel()` | `GET/PUT /api/v1/secretary/channel` |
 | `getSecretaryBot()` / `updateSecretaryBot()` | `GET/PATCH /api/v1/secretary/bot` |
 | `getSecretaryUsage()` | `GET /api/v1/secretary/usage` |
 | `sendSecretaryMessage()` | `POST /api/v1/secretary/messages` |
+| `getIntakeThread()` / `takeIntakeThread()` / `releaseIntakeThread()` / `sendIntakeMessage()` | `GET/POST /api/v1/intake/threads/{phone}` |
+| `getIntakeMedia()` | `GET /api/v1/intake/media/{id}` |
+| `getDirectoryChannel()` / `getDirectoryStatus()` | `GET /api/v1/directory/channel` y `/status` |
+| `getPricingQuote()` | `GET /api/v1/pricing/quote?sku=` |
 
-Directory stubs y Host Protocol (AHP) no van en este paquete: AHP lo implementa el host (Gosalud); directory llega en una versión posterior.
+Host Protocol (`/altha/v1/*`) lo implementa el host. Este paquete no lo llama. El webhook de entitlements y `POST /api/v1/integrations/gosalud/link` usan otros secretos y tampoco están en este cliente.
 
 ## Desarrollo
 

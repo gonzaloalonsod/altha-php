@@ -5,6 +5,16 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2026-11-24
+
+### Added
+
+- `health()` calls `GET /api/v1/health` without an API key.
+- Intake thread read, take, release, and send, plus a presigned media URL (`intake:threads`).
+- Directory channel and status calls. HTTP 501 is `ApiException`.
+- `getPricingQuote()` for `GET /api/v1/pricing/quote`.
+- Meta Cloud templates on `sendSecretaryMessage()` via optional `templateName` and `templateLanguage`. Gupshup `templateId` is unchanged.
+
 ## [0.1.1] - 2026-09-24
 
 ### Changed
